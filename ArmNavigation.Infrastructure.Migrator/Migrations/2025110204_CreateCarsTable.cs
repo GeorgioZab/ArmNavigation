@@ -9,8 +9,8 @@ namespace ArmNavigation.Infrastructure.Migrator.Migrations
         {
             Execute.Sql("""
                      CREATE TABLE "Cars" ("CarId" UUID PRIMARY KEY,
-                     "RegNum" int not null,
-                     "Gps-tracker" text not null,
+                     "RegNum" text not null,
+                     "Gps-tracker" text,
                      "IsRemoved" bool default false not null,
                      "MedInstitutionId" UUID not null,
 

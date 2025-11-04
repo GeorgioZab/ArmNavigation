@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ArmNavigation.Domain\ArmNavigation.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

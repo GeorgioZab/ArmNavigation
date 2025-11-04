@@ -1,5 +1,7 @@
 ﻿using ArmNavigation.Infrastructure.Migrator.Extensions;
 using Microsoft.Extensions.DependencyInjection;
+using ArnNavigation.Application.Services;
+using ArnNavigation.Application.Repositories;
 
 namespace ArmNavigation.Infrastructure.Postgres.Extensions;
 
@@ -26,12 +28,14 @@ public static class PostgresExtensions
 
     private static void ConfigureRepositories(this IServiceCollection service)
     {
-
+        service.AddScoped<IMedInstitutionRepository, Repositories.MedInstitutionRepository>();
+        service.AddScoped<IUserRepository, Repositories.UserRepository>();
     }
 
     private static void ConfigureServices(this IServiceCollection service)
     {
-
+        service.AddScoped<IMedInstitutionService, MedInstitutionService>();
+        service.AddScoped<IUsersService, UsersService>();
     }
 
     private static string GetConnectionString()

@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ArmNavigation.Domain.Models
+﻿namespace ArmNavigation.Domain.Models
 {
-    public class Car
+    public sealed record Car 
     {
-        public Guid CarId { get; set; }
-        public string RegNum { get; set; } = default!;
-        public Guid MedInstitutionId { get; set; }
-        public string? GpsTracker { get; set; }
-        public bool IsRemoved { get; set; } = false;
+        public Guid CarId { get; init; }
+        public string RegNum { get; init; }
+        public Guid MedInstitutionId { get; init; }
+        public string? GpsTracker { get; init; }
+        public bool IsRemoved { get; init; }
     }
 }

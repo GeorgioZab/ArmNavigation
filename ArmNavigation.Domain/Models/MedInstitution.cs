@@ -1,9 +1,9 @@
 ﻿namespace ArmNavigation.Domain.Models
 {
-    public class MedInstitution
+    public sealed record MedInstitution
     {
-        public Guid MedInstitutionId { get; set; }
-        public string Name { get; set; } = default!;
-        public bool IsRemoved { get; set; } = false;
+        public Guid MedInstitutionId { get; init; }
+        public string Name { get; init; }
+        public bool IsRemoved { get; init; }
     }
 }

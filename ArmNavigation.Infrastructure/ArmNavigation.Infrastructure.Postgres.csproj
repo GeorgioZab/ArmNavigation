@@ -13,7 +13,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ArmNavigation.Domain\ArmNavigation.Domain.csproj" />
     <ProjectReference Include="..\ArmNavigation.Infrastructure.Migrator\ArmNavigation.Infrastructure.Migrator.csproj" />
+    <ProjectReference Include="..\ArnNavigation.Application\ArnNavigation.Application.csproj" />
   </ItemGroup>
 
 </Project>

@@ -9,7 +9,7 @@ namespace ArmNavigation.Infrastructure.Migrator.Migrations
         {
             Execute.Sql("""
                      CREATE TABLE "Positions" ("PositionId" UUID PRIMARY KEY,
-                     "Time" int not null,
+                     "Time" timestamp not null,
                      "Coordinates" point not null,
                      "CarId" UUID not null,
                      
