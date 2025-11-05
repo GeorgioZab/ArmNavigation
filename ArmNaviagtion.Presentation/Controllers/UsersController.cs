@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
-namespace ArmNavigation.Controllers
+namespace ArmNaviagtion.Presentation.Controllers
 {
     [ApiController]
     [Route("api/users")]
@@ -36,8 +36,8 @@ namespace ArmNavigation.Controllers
             return Ok(user);
         }
 
-        public sealed record CreateUserRequest(string Login, string Password, Role Role, Guid MedInstitutionId);
-        public sealed record UpdateUserRequest(string Login, string? Password, Role Role, Guid MedInstitutionId);
+        public sealed record CreateUserRequest(string Login, string Password, int Role, Guid MedInstitutionId);
+        public sealed record UpdateUserRequest(string Login, string? Password, int Role, Guid MedInstitutionId);
 
         [HttpPost]
         public async Task<ActionResult<Guid>> Create([FromBody] CreateUserRequest request, CancellationToken ct)
@@ -65,17 +65,11 @@ namespace ArmNavigation.Controllers
             return NoContent();
         }
 
-        private static (Role role, Guid org) GetContext(ClaimsPrincipal user)
+        private static (int role, Guid org) GetContext(ClaimsPrincipal user)
         {
             var roleClaim = user.FindFirst(ClaimTypes.Role)?.Value;
             var orgClaim = user.FindFirst("org")?.Value;
-            var role = roleClaim switch
-            {
-                nameof(Role.SuperAdmin) => Role.SuperAdmin,
-                nameof(Role.OrgAdmin) => Role.OrgAdmin,
-                nameof(Role.Dispatcher) => Role.Dispatcher,
-                _ => Role.Dispatcher
-            };
+            var role = int.TryParse(roleClaim, out var r) ? r : (int)Role.Dispatcher;
             var org = Guid.TryParse(orgClaim, out var g) ? g : Guid.Empty;
             return (role, org);
         }

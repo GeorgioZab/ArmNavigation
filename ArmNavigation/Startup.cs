@@ -51,6 +51,7 @@ public class Startup(IConfiguration configuration)
         service.AddAuthorization();
 
         // Application services
+        service.AddScoped<JwtTokenService>();
         service.AddScoped<IAuthService, JwtAuthService>();
         service.AddScoped<IPasswordHasher, PasswordHasher>();
 

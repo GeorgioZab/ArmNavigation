@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
-namespace ArmNavigation.Controllers
+namespace ArmNaviagtion.Presentation.Controllers
 {
     [ApiController]
     [Route("api/med-institutions")]
@@ -19,6 +19,7 @@ namespace ArmNavigation.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<MedInstitution>>> List([FromQuery] string? name, CancellationToken ct)
         {
             var role = GetRoleFromUser(User);
@@ -27,6 +28,7 @@ namespace ArmNavigation.Controllers
         }
 
         [HttpGet("{id:guid}")]
+        [Authorize]
         public async Task<ActionResult<MedInstitution?>> Get(Guid id, CancellationToken ct)
         {
             var role = GetRoleFromUser(User);
@@ -67,16 +69,10 @@ namespace ArmNavigation.Controllers
             return NoContent();
         }
 
-        private static Role GetRoleFromUser(ClaimsPrincipal user)
+        private static int GetRoleFromUser(ClaimsPrincipal user)
         {
             var roleClaim = user.FindFirst(ClaimTypes.Role)?.Value;
-            return roleClaim switch
-            {
-                nameof(Role.SuperAdmin) => Role.SuperAdmin,
-                nameof(Role.OrgAdmin) => Role.OrgAdmin,
-                nameof(Role.Dispatcher) => Role.Dispatcher,
-                _ => Role.Dispatcher
-            };
+            return int.TryParse(roleClaim, out var r) ? r : (int)Role.Dispatcher;
         }
     }
 }

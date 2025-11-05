@@ -32,12 +32,14 @@ public static class PostgresExtensions
     {
         service.AddScoped<IMedInstitutionRepository, Repositories.MedInstitutionRepository>();
         service.AddScoped<IUserRepository, Repositories.UserRepository>();
+        service.AddScoped<ICarRepository, Repositories.CarRepository>();
     }
 
     private static void ConfigureServices(this IServiceCollection service)
     {
         service.AddScoped<IMedInstitutionService, MedInstitutionService>();
         service.AddScoped<IUsersService, UsersService>();
+        service.AddScoped<ICarsService, CarsService>();
     }
 
     private static string GetConnectionString()
@@ -62,33 +64,27 @@ public static class PostgresExtensions
             return;
         }
 
-        try
-        {
-            using var test = new NpgsqlConnection(target.ConnectionString);
-            test.Open();
-            return;
-        }
-        catch
-        {
-            // try create below
-        }
-
+        var adminDb = Environment.GetEnvironmentVariable("DATABASE");
         var adminBuilder = new NpgsqlConnectionStringBuilder(connectionString)
         {
-            Database = "postgres"
+            Database = string.IsNullOrWhiteSpace(adminDb) ? "postgres" : adminDb
         };
 
         using var admin = new NpgsqlConnection(adminBuilder.ConnectionString);
         admin.Open();
         using (var cmd = admin.CreateCommand())
         {
-            cmd.CommandText = "SELECT 1 FROM pg_database WHERE datname = @name";
+            cmd.CommandText = """
+                SELECT 1 FROM pg_database WHERE datname = @name
+                """;
             cmd.Parameters.AddWithValue("name", databaseName);
             var exists = cmd.ExecuteScalar() != null;
             if (!exists)
             {
                 using var create = admin.CreateCommand();
-                create.CommandText = $"CREATE DATABASE \"{databaseName}\"";
+                create.CommandText = $"""
+                    CREATE DATABASE "{databaseName}"
+                    """;
                 create.ExecuteNonQuery();
             }
         }

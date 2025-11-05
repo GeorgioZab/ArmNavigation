@@ -1,6 +1,6 @@
 ﻿namespace ArmNavigation.Domain.Models
 {
-    public sealed class Position
+    public sealed record Position
     {
         public Guid PositionId { get; set; }
         public Guid CarId { get; set; }

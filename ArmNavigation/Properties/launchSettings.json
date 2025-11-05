@@ -5,7 +5,8 @@
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "POSTGRES_CONNECTION_STRING": "Server=localhost;Port=5430;User Id=admin;Password=admin;Database=ArmNavigation;SearchPath=arm_navigation_schema;Include Error Detail=true"
+        "POSTGRES_CONNECTION_STRING": "Server=localhost;Port=5430;User Id=admin;Password=admin;Database=ArmNavigation;SearchPath=arm_navigation_schema;Include Error Detail=true",
+        "DATABASE": "postgres"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "http://localhost:5195"
@@ -15,7 +16,8 @@
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "POSTGRES_CONNECTION_STRING": "Server=localhost;Port=5430;User Id=admin;Password=admin;Database=ArmNavigation;SearchPath=arm_navigation_schema;Include Error Detail=true"
+        "POSTGRES_CONNECTION_STRING": "Server=localhost;Port=5430;User Id=admin;Password=admin;Database=ArmNavigation;SearchPath=arm_navigation_schema;Include Error Detail=true",
+        "DATABASE": "postgres"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "https://localhost:7127;http://localhost:5195"
@@ -25,7 +27,8 @@
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "POSTGRES_CONNECTION_STRING": "Server=localhost;Port=5430;User Id=admin;Password=admin;Database=ArmNavigation;SearchPath=arm_navigation_schema;Include Error Detail=true"
+        "POSTGRES_CONNECTION_STRING": "Server=localhost;Port=5430;User Id=admin;Password=admin;Database=ArmNavigation;SearchPath=arm_navigation_schema;Include Error Detail=true",
+        "DATABASE": "postgres"
       }
     },
     "Container (Dockerfile)": {
@@ -34,7 +37,8 @@
       "environmentVariables": {
         "ASPNETCORE_HTTPS_PORTS": "8081",
         "ASPNETCORE_HTTP_PORTS": "8080",
-        "POSTGRES_CONNECTION_STRING": "Server=localhost;Port=5430;User Id=admin;Password=admin;Database=ArmNavigation;SearchPath=arm_navigation_schema;Include Error Detail=true"
+        "POSTGRES_CONNECTION_STRING": "Server=localhost;Port=5430;User Id=admin;Password=admin;Database=ArmNavigation;SearchPath=arm_navigation_schema;Include Error Detail=true",
+        "DATABASE": "postgres"
       },
       "publishAllPorts": true,
       "useSSL": true

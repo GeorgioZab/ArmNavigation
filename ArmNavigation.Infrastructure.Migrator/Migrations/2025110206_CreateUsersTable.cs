@@ -13,10 +13,9 @@ namespace ArmNavigation.Infrastructure.Migrator.Migrations
                      "Login" text not null UNIQUE,
                      "Password" text not null,
                      "IsRemoved" bool default false not null,
-                     "UserRoleId" UUID,
+                     "Role" int not null,
                      "MedInstitutionId" UUID not null,
 
-                     CONSTRAINT fk_UserRoles_Users FOREIGN KEY ("UserRoleId") REFERENCES "UserRoles" ("UserRoleId") ON DELETE CASCADE,
                      CONSTRAINT fk_MedInstitutions_Users FOREIGN KEY ("MedInstitutionId") REFERENCES "MedInstitutions" ("MedInstitutionId"));
                      """);
         }

@@ -1,7 +1,7 @@
 using ArnNavigation.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ArmNavigation.Controllers
+namespace ArmNaviagtion.Presentation.Controllers
 {
     [ApiController]
     [Route("api/auth")]

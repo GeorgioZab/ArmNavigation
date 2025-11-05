@@ -10,6 +10,7 @@ services:
       - ASPNETCORE_HTTP_PORTS=8080
       - ASPNETCORE_HTTPS_PORTS=8081
       - POSTGRES_CONNECTION_STRING=Host=postgres;Port=5432;User Id=admin;Password=admin;Database=ArmNavigation;SearchPath=arm_navigation_schema;Include Error Detail=true
+      - DATABASE=postgres
 
     ports:
       - "8080:8080"
