@@ -11,12 +11,14 @@ services:
       - ASPNETCORE_HTTPS_PORTS=8081
       - POSTGRES_CONNECTION_STRING=Host=postgres;Port=5432;User Id=admin;Password=admin;Database=ArmNavigation;SearchPath=arm_navigation_schema;Include Error Detail=true
       - DATABASE=postgres
+      - RABBITMQ_CONNECTION_STRING=amqp://guest:guest@rabbitmq:5672
 
     ports:
       - "8080:8080"
       - "8081:8081"
     depends_on:
       - postgres
+      - rabbitmq
     networks:
       - armnavigation_net
 
@@ -34,8 +36,23 @@ services:
     networks:
       - armnavigation_net
 
+  rabbitmq:
+    image: rabbitmq:3-management
+    restart: always
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - armnavigation_net
+
 volumes:
   postgres_data:
+  rabbitmq_data:
 
 networks:
   armnavigation_net:
