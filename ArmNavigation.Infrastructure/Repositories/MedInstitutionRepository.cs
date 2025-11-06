@@ -3,7 +3,7 @@ using ArmNavigation.Domain.Models;
 using Dapper;
 
 namespace ArmNavigation.Infrastructure.Repositories;
-
+        private const string ConnectionEnv = "POSTGRES_CONNECTION_STRING";
 public sealed class MedInstitutionRepository : BaseRepository, IMedInstitutionRepository
 {
     public async Task<IEnumerable<MedInstitution>> GetAllAsync(CancellationToken ct)
@@ -33,6 +33,7 @@ public sealed class MedInstitutionRepository : BaseRepository, IMedInstitutionRe
 
         return await QueryAsync<MedInstitution>(sql, parameters, ct);
     }
+        }
 
     public async Task<MedInstitution?> GetByIdAsync(Guid id, CancellationToken ct)
     {
@@ -41,13 +42,12 @@ public sealed class MedInstitutionRepository : BaseRepository, IMedInstitutionRe
             FROM "MedInstitutions"
             WHERE "MedInstitutionId" = @id AND "IsRemoved" = false
             """;
-
         var parameters = new DynamicParameters();
         parameters.Add("id", id);
-
+        }
         return await QuerySingleOrDefaultAsync<MedInstitution>(sql, parameters, ct);
     }
-
+        }
     public async Task<Guid> CreateAsync(MedInstitution medInstitution, CancellationToken ct)
     {
         var id = medInstitution.MedInstitutionId != Guid.Empty ? medInstitution.MedInstitutionId : Guid.NewGuid();
@@ -63,7 +63,7 @@ public sealed class MedInstitutionRepository : BaseRepository, IMedInstitutionRe
         await ExecuteAsync(sql, parameters, ct);
         return id;
     }
-
+        }
     public async Task<bool> UpdateAsync(MedInstitution medInstitution, CancellationToken ct)
     {
         const string sql = """
@@ -79,7 +79,7 @@ public sealed class MedInstitutionRepository : BaseRepository, IMedInstitutionRe
         var affected = await ExecuteAsync(sql, parameters, ct);
         return affected > 0;
     }
-
+        }
     public async Task<bool> SoftDeleteAsync(Guid id, CancellationToken ct)
     {
         const string sql = """
