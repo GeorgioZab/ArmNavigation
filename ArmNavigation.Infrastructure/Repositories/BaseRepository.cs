@@ -4,14 +4,14 @@ using Npgsql;
 
 namespace ArmNavigation.Infrastructure.Repositories;
 
-public abstract class BaseRepository
-{
+    public abstract class BaseRepository
+    {
     private const string ConnectionEnv = "POSTGRES_CONNECTION_STRING";
     private const int DefaultTimeoutSeconds = 30;
 
     private static string GetConnectionString()
-    {
-        var cs = Environment.GetEnvironmentVariable(ConnectionEnv);
+        {
+            var cs = Environment.GetEnvironmentVariable(ConnectionEnv);
         return string.IsNullOrWhiteSpace(cs)
             ? throw new InvalidOperationException($"Environment variable '{ConnectionEnv}' is not set.")
             : cs;
@@ -24,12 +24,12 @@ public abstract class BaseRepository
         DynamicParameters? parameters = null,
         CancellationToken ct = default,
         int? timeout = null)
-    {
+            {
         var command = new CommandDefinition(sql, parameters, cancellationToken: ct, commandTimeout: timeout ?? DefaultTimeoutSeconds);
         await using var conn = CreateConnection();
         var result = await conn.QueryAsync<T>(command);
         return result.ToArray();
-    }
+            }
 
     protected static async Task<T?> QuerySingleOrDefaultAsync<T>(
         string sql,
@@ -40,18 +40,18 @@ public abstract class BaseRepository
         var command = new CommandDefinition(sql, parameters, cancellationToken: ct, commandTimeout: timeout ?? DefaultTimeoutSeconds);
         await using var conn = CreateConnection();
         return await conn.QuerySingleOrDefaultAsync<T>(command);
-    }
+        }
 
     protected static async Task<int> ExecuteAsync(
         string sql,
         DynamicParameters? parameters = null,
         CancellationToken ct = default,
         int? timeout = null)
-    {
+        {
         var command = new CommandDefinition(sql, parameters, cancellationToken: ct, commandTimeout: timeout ?? DefaultTimeoutSeconds);
         await using var conn = CreateConnection();
         return await conn.ExecuteAsync(command);
-    }
+        }
 
     protected static async Task<T> ExecuteScalarAsync<T>(
         string sql,
@@ -64,3 +64,4 @@ public abstract class BaseRepository
         return await conn.ExecuteScalarAsync<T>(command);
     }
 }
+

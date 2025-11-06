@@ -66,7 +66,6 @@ namespace ArnNavigation.Application.Services
             return await _cars.SoftDeleteAsync(id, ct);
         }
 
-        public Task<IEnumerable<Car>> GetAsync(string query, int requesterRole, Guid requesterOrgId, Guid? orgId, CancellationToken ct)
         {
             var scopeOrg = requesterRole == (int)Role.SuperAdmin ? orgId : requesterOrgId;
             return _cars.GetAsync(query, scopeOrg, ct);

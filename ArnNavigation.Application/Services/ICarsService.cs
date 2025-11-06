@@ -1,3 +1,4 @@
+using ArmNavigation.Domain.Enums;
 using ArmNavigation.Domain.Models;
 
 namespace ArnNavigation.Application.Services
