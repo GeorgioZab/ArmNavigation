@@ -1,0 +1,1 @@
+﻿public sealed record RegisterRequest(string Login, string Password);

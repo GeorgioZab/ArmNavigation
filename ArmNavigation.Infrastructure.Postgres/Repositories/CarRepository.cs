@@ -9,7 +9,7 @@ namespace ArmNavigation.Infrastructure.Postgres.Repositories
 {
     public sealed class CarRepository : BaseRepository, ICarRepository
     {
-        public async Task<IEnumerable<Car>> GetAllByOrgAsync(Guid? medInstitutionId, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Car>> GetAllByOrgAsync(Guid? medInstitutionId, CancellationToken token)
         {
             const string sql = """
             SELECT c."CarId", c."RegNum", c."MedInstitutionId", c."Gps-tracker" AS "GpsTracker", c."IsRemoved"
@@ -21,20 +21,20 @@ namespace ArmNavigation.Infrastructure.Postgres.Repositories
             if (medInstitutionId.HasValue)
                 parameters.Add("orgId", medInstitutionId.Value);
 
-            return await ExecuteQueryAsync<Car>(sql, parameters, cancellationToken);
+            return await ExecuteQueryAsync<Car>(sql, parameters, token);
         }
 
-        public async Task<Car?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<Car?> GetByIdAsync(Guid id, CancellationToken token)
         {
             const string sql = """
             SELECT c."CarId", c."RegNum", c."MedInstitutionId", c."Gps-tracker" AS "GpsTracker", c."IsRemoved"
             FROM "Cars" c
             WHERE c."CarId" = @id AND c."IsRemoved" = false
             """;
-            return await ExecuteQuerySingleOrDefaultAsync<Car>(sql, new { id }, cancellationToken);
+            return await ExecuteQuerySingleOrDefaultAsync<Car>(sql, new { id }, token);
         }
 
-        public async Task<Guid> CreateAsync(Car car, CancellationToken cancellationToken)
+        public async Task<Guid> CreateAsync(Car car, CancellationToken token)
         {
             var id = car.CarId != Guid.Empty ? car.CarId : Guid.NewGuid();
             const string sql = """
@@ -49,10 +49,10 @@ namespace ArmNavigation.Infrastructure.Postgres.Repositories
                 reg = car.RegNum,
                 gps = car.GpsTracker,
                 orgId = car.MedInstitutionId
-            }, cancellationToken);
+            }, token);
         }
 
-        public async Task<Car> UpdateAsync(Car car, CancellationToken cancellationToken)
+        public async Task<Car> UpdateAsync(Car car, CancellationToken token)
         {
             const string sql = """
             UPDATE "Cars"
@@ -66,12 +66,12 @@ namespace ArmNavigation.Infrastructure.Postgres.Repositories
                 reg = car.RegNum,
                 gps = car.GpsTracker,
                 orgId = car.MedInstitutionId
-            }, cancellationToken);
+            }, token);
 
             return car;
         }
 
-        public async Task<Car> SoftDeleteAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<Car> SoftDeleteAsync(Guid id, CancellationToken token)
         {
             const string sql = """
             UPDATE "Cars"
@@ -79,10 +79,10 @@ namespace ArmNavigation.Infrastructure.Postgres.Repositories
             WHERE "CarId" = @id AND "IsRemoved" = false
             """;
 
-            return await ExecuteNonQueryAsync<Car>(sql, new { id }, cancellationToken);
+            return await ExecuteNonQueryAsync<Car>(sql, new { id }, token);
         }
 
-        public async Task<IEnumerable<Car>> GetAsync(string query, Guid? medInstitutionId, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Car>> GetAsync(string query, Guid? medInstitutionId, CancellationToken token)
         {
             const string sql = """
                 SELECT c."CarId", c."RegNum", c."MedInstitutionId", c."Gps-tracker" AS "GpsTracker", c."IsRemoved"
@@ -95,10 +95,10 @@ namespace ArmNavigation.Infrastructure.Postgres.Repositories
             if (medInstitutionId.HasValue)
                 parameters.Add("orgId", medInstitutionId.Value);
 
-            return await ExecuteQueryAsync<Car>(sql, parameters, cancellationToken);
+            return await ExecuteQueryAsync<Car>(sql, parameters, token);
         }
 
-        public async Task<Car> BindTrackerAsync(Guid carId, string tracker, CancellationToken cancellationToken)
+        public async Task<Car> BindTrackerAsync(Guid carId, string tracker, CancellationToken token)
         {
             const string sql = """
             UPDATE "Cars"
@@ -106,10 +106,10 @@ namespace ArmNavigation.Infrastructure.Postgres.Repositories
             WHERE "CarId" = @id AND "IsRemoved" = false
             """;
 
-            return await ExecuteNonQueryAsync<Car>(sql, new { id = carId, gps = tracker }, cancellationToken);
+            return await ExecuteNonQueryAsync<Car>(sql, new { id = carId, gps = tracker }, token);
         }
 
-        public async Task<Car> UnbindTrackerAsync(Guid carId, CancellationToken cancellationToken)
+        public async Task<Car> UnbindTrackerAsync(Guid carId, CancellationToken token)
         {
             const string sql = """
             UPDATE "Cars"
@@ -117,7 +117,7 @@ namespace ArmNavigation.Infrastructure.Postgres.Repositories
             WHERE "CarId" = @id AND "IsRemoved" = false
             """;
 
-            return await ExecuteNonQueryAsync<Car>(sql, new { id = carId }, cancellationToken);
+            return await ExecuteNonQueryAsync<Car>(sql, new { id = carId }, token);
         }
     }
 }

@@ -14,8 +14,6 @@ namespace ArmNaviagtion.Presentation.Controllers
             _authService = authService;
         }
 
-        public sealed record LoginRequest(string Login, string Password);
-
         [HttpPost("login")]
         public async Task<ActionResult<string>> Login([FromBody] LoginRequest request, CancellationToken token)
         {
@@ -23,8 +21,19 @@ namespace ArmNaviagtion.Presentation.Controllers
             if (response is null) return Unauthorized();
             return Ok(response);
         }
+
+        [HttpPost("register")]
+        public async Task<ActionResult<string>> Register([FromBody] RegisterRequest request, CancellationToken token)
+        {
+            try
+            {
+                var response = await _authService.RegisterAsync(request.Login, request.Password, token);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
-
-
-

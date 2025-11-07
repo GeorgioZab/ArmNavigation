@@ -9,7 +9,7 @@ namespace ArmNaviagtion.Presentation.Controllers
 {
     [ApiController]
     [Route("api/med-institutions")]
-    [Authorize]
+    //[Authorize]
     public sealed class MedInstitutionsController : ControllerBase
     {
         private readonly IMedInstitutionService _service;

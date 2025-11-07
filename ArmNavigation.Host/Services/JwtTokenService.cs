@@ -9,7 +9,7 @@ namespace ArmNavigation.Services
     public sealed class JwtTokenService
     {
         private readonly IConfiguration _configuration;
-        private const string DefaultKey = "CHANGE_ME_DEV_KEY";
+        private const string DefaultKey = "your_super_secret_key_that_is_at_least_32_characters_long!";
         private const string DefaultIssuer = "ArmNavigation";
         private const int TokenLifetimeHours = 12;
 

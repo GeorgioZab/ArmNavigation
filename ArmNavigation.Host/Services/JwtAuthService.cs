@@ -1,5 +1,6 @@
 using ArnNavigation.Application.Repositories;
 using ArnNavigation.Application.Services;
+using ArmNavigation.Domain.Models;
 
 namespace ArmNavigation.Services
 {
@@ -24,7 +25,30 @@ namespace ArmNavigation.Services
 
             return _jwtTokenService.GenerateToken(user.UserId, user.Login, user.Role, user.MedInstitutionId);
         }
+
+        public async Task<string> RegisterAsync(string login, string password, CancellationToken cancellationToken)
+        {
+            var existingUser = await _users.GetByLoginAsync(login, cancellationToken);
+            if (existingUser != null)
+            {
+                throw new InvalidOperationException("User with this login already exists");
+            }
+
+            var passwordHash = _passwordHasher.Hash(password);
+
+            var user = new User
+            {
+                UserId = Guid.NewGuid(),
+                Login = login,
+                PasswordHash = passwordHash,
+                MedInstitutionId = Guid.Empty,
+                Role = 2,
+                IsRemoved = false
+            };
+
+            await _users.CreateAsync(user, cancellationToken);
+
+            return _jwtTokenService.GenerateToken(user.UserId, user.Login, user.Role, user.MedInstitutionId);
+        }
     }
 }
-
-

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Serilog;
 using System.Text;
 using ArnNavigation.Application.Services;
@@ -19,7 +20,37 @@ public class Startup(IConfiguration configuration)
         service.AddRouting();
         service.AddControllers();
         service.AddEndpointsApiExplorer();
-        service.AddSwaggerGen();
+
+        // Настройка Swagger с JWT поддержкой
+        service.AddSwaggerGen(options =>
+        {
+            options.SwaggerDoc("v1", new OpenApiInfo { Title = "ArmNavigation API", Version = "v1" });
+
+            // Добавляем поддержку JWT в Swagger
+            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                Name = "Authorization",
+                In = ParameterLocation.Header,
+                Type = SecuritySchemeType.ApiKey,
+                Scheme = "Bearer"
+            });
+
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    Array.Empty<string>()
+                }
+            });
+        });
 
         // JWT authentication (parameters will be finalized when issuing tokens)
         var jwtKey = _configuration["Jwt:Key"] ?? "CHANGE_ME_DEV_KEY";
@@ -69,6 +100,5 @@ public class Startup(IConfiguration configuration)
         {
             endpoints.MapControllers();
         });
-
     }
 }

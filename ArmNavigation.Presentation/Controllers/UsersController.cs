@@ -9,7 +9,7 @@ namespace ArmNaviagtion.Presentation.Controllers
 {
     [ApiController]
     [Route("api/users")]
-    [Authorize]
+    //[Authorize]
     public sealed class UsersController : ControllerBase
     {
         private readonly IUsersService _service;
