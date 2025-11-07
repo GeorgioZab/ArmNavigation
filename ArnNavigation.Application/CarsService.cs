@@ -41,10 +41,10 @@ namespace ArnNavigation.Application.Services
             return await _cars.CreateAsync(entity, token);
         }
 
-        public async Task<bool> UpdateAsync(Guid id, string regNum, Guid orgId, string? gpsTracker, int requesterRole, Guid requesterOrgId, CancellationToken token)
+        public async Task<Car> UpdateAsync(Guid id, string regNum, Guid orgId, string? gpsTracker, int requesterRole, Guid requesterOrgId, CancellationToken token)
         {
             var existing = await _cars.GetByIdAsync(id, token);
-            if (existing is null) return false;
+            if (existing is null) return null;
             if (requesterRole != (int)Role.SuperAdmin && existing.MedInstitutionId != requesterOrgId) throw new UnauthorizedAccessException();
 
             var updated = new Car
@@ -58,10 +58,10 @@ namespace ArnNavigation.Application.Services
             return await _cars.UpdateAsync(updated, token);
         }
 
-        public async Task<bool> RemoveAsync(Guid id, int requesterRole, Guid requesterOrgId, CancellationToken token)
+        public async Task<Car> RemoveAsync(Guid id, int requesterRole, Guid requesterOrgId, CancellationToken token)
         {
             var existing = await _cars.GetByIdAsync(id, token);
-            if (existing is null) return false;
+            if (existing is null) return null;
             if (requesterRole != (int)Role.SuperAdmin && existing.MedInstitutionId != requesterOrgId) throw new UnauthorizedAccessException();
             return await _cars.SoftDeleteAsync(id, token);
         }
@@ -72,18 +72,18 @@ namespace ArnNavigation.Application.Services
             return _cars.GetAsync(query, scopeOrg, token);
         }
 
-        public async Task<bool> BindTrackerAsync(Guid carId, string tracker, int requesterRole, Guid requesterOrgId, CancellationToken token)
+        public async Task<Car> BindTrackerAsync(Guid carId, string tracker, int requesterRole, Guid requesterOrgId, CancellationToken token)
         {
             var existing = await _cars.GetByIdAsync(carId, token);
-            if (existing is null) return false;
+            if (existing is null) return null;
             if (requesterRole != (int)Role.SuperAdmin && existing.MedInstitutionId != requesterOrgId) throw new UnauthorizedAccessException();
             return await _cars.BindTrackerAsync(carId, tracker, token);
         }
 
-        public async Task<bool> UnbindTrackerAsync(Guid carId, int requesterRole, Guid requesterOrgId, CancellationToken token)
+        public async Task<Car> UnbindTrackerAsync(Guid carId, int requesterRole, Guid requesterOrgId, CancellationToken token)
         {
             var existing = await _cars.GetByIdAsync(carId, token);
-            if (existing is null) return false;
+            if (existing is null) return null;
             if (requesterRole != (int)Role.SuperAdmin && existing.MedInstitutionId != requesterOrgId) throw new UnauthorizedAccessException();
             return await _cars.UnbindTrackerAsync(carId, token);
         }

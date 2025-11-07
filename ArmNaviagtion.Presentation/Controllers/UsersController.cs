@@ -49,7 +49,7 @@ namespace ArmNaviagtion.Presentation.Controllers
         {
             (int role, Guid org) = GetContext(User);
             var ok = await _service.UpdateAsync(id, request.Login, request.Password, request.Role, request.MedInstitutionId, role, org, token);
-            if (!ok) return NotFound();
+            if (ok == null) return NotFound();
             return NoContent();
         }
 
@@ -58,7 +58,7 @@ namespace ArmNaviagtion.Presentation.Controllers
         {
             (int role, Guid org) = GetContext(User);
             var ok = await _service.RemoveAsync(id, role, org, token);
-            if (!ok) return NotFound();
+            if (ok == null) return NotFound();
             return NoContent();
         }
 

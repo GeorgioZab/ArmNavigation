@@ -46,10 +46,10 @@ namespace ArnNavigation.Application.Services
             return await _users.CreateAsync(entity, token);
         }
 
-        public async Task<bool> UpdateAsync(Guid id, string login, string? passwordPlain, int role, Guid orgId, int requesterRole, Guid requesterOrgId, CancellationToken token)
+        public async Task<User> UpdateAsync(Guid id, string login, string? passwordPlain, int role, Guid orgId, int requesterRole, Guid requesterOrgId, CancellationToken token)
         {
             var existing = await _users.GetByIdAsync(id, token);
-            if (existing is null) return false;
+            if (existing is null) return null;
             if (requesterRole != (int)Role.SuperAdmin && existing.MedInstitutionId != requesterOrgId) throw new UnauthorizedAccessException();
 
             var hashed = passwordPlain is null ? existing.PasswordHash : _passwordHasher.Hash(passwordPlain);
@@ -65,10 +65,10 @@ namespace ArnNavigation.Application.Services
             return await _users.UpdateAsync(updated, token);
         }
 
-        public async Task<bool> RemoveAsync(Guid id, int requesterRole, Guid requesterOrgId, CancellationToken token)
+        public async Task<User> RemoveAsync(Guid id, int requesterRole, Guid requesterOrgId, CancellationToken token)
         {
             var existing = await _users.GetByIdAsync(id, token);
-            if (existing is null) return false;
+            if (existing is null) return null;
             if (requesterRole != (int)Role.SuperAdmin && existing.MedInstitutionId != requesterOrgId) throw new UnauthorizedAccessException();
             return await _users.SoftDeleteAsync(id, token);
         }

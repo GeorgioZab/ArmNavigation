@@ -30,14 +30,14 @@ namespace ArnNavigation.Application.Services
             return await _repository.CreateAsync(entity, cancellationToken);
         }
 
-        public async Task<bool> UpdateAsync(Guid id, string name, int requesterRole, CancellationToken cancellationToken)
+        public async Task<MedInstitution> UpdateAsync(Guid id, string name, int requesterRole, CancellationToken cancellationToken)
         {
             EnsureSuperAdmin(requesterRole);
             var entity = new MedInstitution { MedInstitutionId = id, Name = name, IsRemoved = false };
             return await _repository.UpdateAsync(entity, cancellationToken);
         }
 
-        public async Task<bool> RemoveAsync(Guid id, int requesterRole, CancellationToken cancellationToken)
+        public async Task<MedInstitution> RemoveAsync(Guid id, int requesterRole, CancellationToken cancellationToken)
         {
             EnsureSuperAdmin(requesterRole);
             return await _repository.SoftDeleteAsync(id, cancellationToken);

@@ -19,9 +19,9 @@ namespace ArmNaviagtion.Presentation.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<string>> Login([FromBody] LoginRequest request, CancellationToken token)
         {
-            var token = await _authService.LoginAsync(request.Login, request.Password, token);
-            if (token is null) return Unauthorized();
-            return Ok(token);
+            var response = await _authService.LoginAsync(request.Login, request.Password, token);
+            if (response is null) return Unauthorized();
+            return Ok(response);
         }
     }
 }

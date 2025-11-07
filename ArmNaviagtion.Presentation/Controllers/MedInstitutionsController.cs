@@ -52,7 +52,7 @@ namespace ArmNaviagtion.Presentation.Controllers
         {
             int role = GetRoleFromUser(User);
             var ok = await _service.UpdateAsync(id, request.Name, role, token);
-            if (!ok) return NotFound();
+            if (ok == null) return NotFound();
             return NoContent();
         }
 
@@ -62,7 +62,7 @@ namespace ArmNaviagtion.Presentation.Controllers
         {
             int role = GetRoleFromUser(User);
             var ok = await _service.RemoveAsync(id, role, token);
-            if (!ok) return NotFound();
+            if (ok == null) return NotFound();
             return NoContent();
         }
 

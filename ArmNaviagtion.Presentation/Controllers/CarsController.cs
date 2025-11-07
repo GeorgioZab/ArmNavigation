@@ -69,14 +69,14 @@ namespace ArmNavigation.Presentation.Controllers
                 _currentUser.MedInstitutionId,
                 token);
 
-            return success ? Success() : NotFoundResponse();
+            return (success != null) ? Success() : NotFoundResponse();
         }
 
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult<ResponseModel>> Delete(Guid id, CancellationToken token)
         {
             var success = await _service.RemoveAsync(id, _currentUser.Role, _currentUser.MedInstitutionId, token);
-            return success ? Success() : NotFoundResponse();
+            return (success != null) ? Success() : NotFoundResponse();
         }
 
         [HttpGet("get")]
@@ -90,14 +90,14 @@ namespace ArmNavigation.Presentation.Controllers
         public async Task<ActionResult<ResponseModel>> BindTracker(Guid id, [FromBody] BindTrackerRequest request, CancellationToken token)
         {
             var success = await _service.BindTrackerAsync(id, request.Tracker, _currentUser.Role, _currentUser.MedInstitutionId, token);
-            return success ? Success() : NotFoundResponse();
+            return (success != null) ? Success() : NotFoundResponse();
         }
 
         [HttpPost("unbind-tracker/{id:guid}")]
         public async Task<ActionResult<ResponseModel>> UnbindTracker(Guid id, CancellationToken token)
         {
             var success = await _service.UnbindTrackerAsync(id, _currentUser.Role, _currentUser.MedInstitutionId, token);
-            return success ? Success() : NotFoundResponse();
+            return (success != null) ? Success() : NotFoundResponse();
         }
     }
 }
