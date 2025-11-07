@@ -9,6 +9,7 @@ namespace ArmNaviagtion.Presentation.Controllers
 {
     [ApiController]
     [Route("api/med-institutions")]
+    [Authorize]
     public sealed class MedInstitutionsController : ControllerBase
     {
         private readonly IMedInstitutionService _service;
@@ -19,7 +20,6 @@ namespace ArmNaviagtion.Presentation.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<ActionResult<IEnumerable<MedInstitution>>> List([FromQuery] string? name, CancellationToken token)
         {
             int role = GetRoleFromUser(User);
@@ -28,7 +28,6 @@ namespace ArmNaviagtion.Presentation.Controllers
         }
 
         [HttpGet("{id:guid}")]
-        [Authorize]
         public async Task<ActionResult<MedInstitution?>> Get(Guid id, CancellationToken token)
         {
             int role = GetRoleFromUser(User);
@@ -38,7 +37,6 @@ namespace ArmNaviagtion.Presentation.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<ActionResult<Guid>> Create([FromBody] CreateMedInstitutionRequest request, CancellationToken token)
         {
             int role = GetRoleFromUser(User);
@@ -47,7 +45,6 @@ namespace ArmNaviagtion.Presentation.Controllers
         }
 
         [HttpPut("{id:guid}")]
-        [Authorize]
         public async Task<ActionResult> Update(Guid id, [FromBody] UpdateMedInstitutionRequest request, CancellationToken token)
         {
             int role = GetRoleFromUser(User);
@@ -57,7 +54,6 @@ namespace ArmNaviagtion.Presentation.Controllers
         }
 
         [HttpDelete("{id:guid}")]
-        [Authorize]
         public async Task<ActionResult> Delete(Guid id, CancellationToken token)
         {
             int role = GetRoleFromUser(User);

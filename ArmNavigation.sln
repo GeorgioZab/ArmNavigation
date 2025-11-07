@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArmNavigation.Infrastructur
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArnNavigation.Application", "ArnNavigation.Application\ArnNavigation.Application.csproj", "{63FEE0CA-F325-489E-AA8A-39A46F156E88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArmNavigation.Presentation", "ArmNaviagtion.Presentation\ArmNavigation.Presentation.csproj", "{5BD6BA1E-A24E-41EA-A972-88AA1ADEC7E0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArmNavigation.Presentation", "ArmNavigation.Presentation\ArmNavigation.Presentation.csproj", "{5BD6BA1E-A24E-41EA-A972-88AA1ADEC7E0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArmNavigation.Domain", "ArmNavigation.Domain\ArmNavigation.Domain.csproj", "{1DE37B68-D5B8-414C-9525-68F65EC7EE98}"
 EndProject

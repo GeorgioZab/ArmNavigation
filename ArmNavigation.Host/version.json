@@ -1,0 +1,11 @@
+﻿{
+  "version": "1.0.0",
+  "build": "20250711.1",
+  "description": "ArmNavigation System",
+  "features": {
+    "cars": true,
+    "tracking": true,
+    "institutions": true,
+    "users": true
+  }
+}
